@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgre
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: nozama
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    image: maven:3.9.9-eclipse-temurin-21
+    container_name: spring_app_dev
+    working_dir: /app
+    volumes:
+      - .:/app
+      - ~/.m2:/root/.m2   # Cache do Maven para acelerar os builds
+    ports:
+      - "8080:8080"
+    command: mvn spring-boot:run
+
+volumes:
+  postgres_data:
