@@ -1,4 +1,4 @@
 package com.nozama.app.model;
 
-public class Product {
+public class Product{
 }
