@@ -11,13 +11,11 @@ import lombok.NoArgsConstructor;
 @Table(name = "Address")
 @NoArgsConstructor
 public class Address {
-    @Id
-    private long id;
-    private String street;
-    private String city;
-    private String state;
-    private String cep;
-    private String country;
-    private int number;
-
+  @Id private long id;
+  private String street;
+  private String city;
+  private String state;
+  private String cep;
+  private String country;
+  private int number;
 }

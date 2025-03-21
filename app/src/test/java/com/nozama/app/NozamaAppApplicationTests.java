@@ -5,9 +5,8 @@ import org.junit.jupiter.api.Test;
 
 class NozamaAppApplicationTests {
 
-	@Test
-	void test() {
-		Assert.assertFalse(false);
-	}
-
+  @Test
+  void test() {
+    Assert.assertFalse(false);
+  }
 }

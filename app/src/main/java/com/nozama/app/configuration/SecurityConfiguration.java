@@ -16,36 +16,36 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-            .authorizeHttpRequests((authorize) -> authorize
-                .requestMatchers("/login").permitAll()
-                .anyRequest().authenticated()
-            )
-            .httpBasic(Customizer.withDefaults()).build();
-    }
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    return http.authorizeHttpRequests(
+            (authorize) ->
+                authorize.requestMatchers("/login").permitAll().anyRequest().authenticated())
+        .httpBasic(Customizer.withDefaults())
+        .build();
+  }
 
-    @Bean
-    public static BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public static BCryptPasswordEncoder bCryptPasswordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
+  @Bean
+  public UserDetailsService userDetailsService() {
+    UserDetails user =
+        User.withDefaultPasswordEncoder()
             .username("user")
             .password("password")
             .roles("USER")
             .build();
 
-        UserDetails admin = User.withDefaultPasswordEncoder()
+    UserDetails admin =
+        User.withDefaultPasswordEncoder()
             .username("admin")
             .password("admin")
-            .roles("USER","ADMIN")
+            .roles("USER", "ADMIN")
             .build();
 
-        return new InMemoryUserDetailsManager(user, admin);
-    }
-
+    return new InMemoryUserDetailsManager(user, admin);
+  }
 }
