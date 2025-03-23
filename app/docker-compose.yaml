@@ -7,10 +7,7 @@ services:
     environment:                 # Variáveis de ambiente para configurar o banco de dados
       POSTGRES_USER: postgre     # Usuário que será criado no banco
       POSTGRES_PASSWORD: root    # Senha para o usuário
-      POSTGRES_DB: nozama
-      # Nome do banco de dados que será criado
-    networks:
-      - nozama-network
+      POSTGRES_DB: nozama        # Nome do banco de dados que será criado
     ports:
       - "5432:5432"              # Mapeia a porta 5432 do container para a porta 5432 da máquina host
     volumes:
@@ -21,14 +18,10 @@ services:
       context: .                 # Diretório onde está o Dockerfile (geralmente o raiz do projeto)
       dockerfile: Dockerfile     # Nome do arquivo Dockerfile a ser utilizado para construir a imagem da aplicação
     container_name: spring_app   # Nome do container da sua aplicação
-    networks:
-      - nozama-network
     ports:
       - "8080:8080"              # Mapeia a porta 8080 do container para a porta 8080 da máquina host (ajuste conforme necessário)
     depends_on:
       - postgres                 # Garante que o container do PostgreSQL seja iniciado antes da aplicação
-networks:
-  nozama-network :
-    driver: bridge
+
 volumes:
   postgres_data:                 # Declaração do volume utilizado para armazenar os dados do PostgreSQL

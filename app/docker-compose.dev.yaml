@@ -6,8 +6,6 @@ services:
       POSTGRES_USER: postgre
       POSTGRES_PASSWORD: root
       POSTGRES_DB: nozama
-    networks:
-      - nozama-network
     ports:
       - "5432:5432"
     volumes:
@@ -20,13 +18,9 @@ services:
     volumes:
       - .:/app
       - ~/.m2:/root/.m2   # Cache do Maven para acelerar os builds
-    networks:
-      - nozama-network
     ports:
       - "8080:8080"
     command: mvn spring-boot:run
-networks:
-  nozama-network :
-    driver: bridge
+
 volumes:
   postgres_data:
