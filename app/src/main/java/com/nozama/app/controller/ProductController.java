@@ -1,13 +1,35 @@
 package com.nozama.app.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.nozama.app.dto.ProductRequest;
+import com.nozama.app.dto.ProductResponse;
+import com.nozama.app.service.ProductService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
-@RestController("/product")
+import java.util.List;
+
+@RestController
+@RequestMapping("api/products")
+@RequiredArgsConstructor
 public class ProductController {
 
-  @GetMapping()
-  public String hello() {
-    return "Hello Worldddd";
+  private final ProductService productService;
+
+  @PreAuthorize("hasRole('ADMIN')")
+  @PostMapping
+  public ResponseEntity<ProductResponse> createProduct (@RequestBody ProductRequest request){
+    return new ResponseEntity<>(productService.createProduct(request), HttpStatus.CREATED);
+  }
+  public ResponseEntity<List<ProductResponse>> searchProducts(
+          @RequestParam(required = false) String search,
+          @RequestParam(required = false) String category,
+          @RequestParam(required = false) double minPrice,
+          @RequestParam(required = false) double maxPrice
+  ) {
+    return ResponseEntity.ok(productService.searchProducts(search, category, minPrice, maxPrice));
   }
 }
