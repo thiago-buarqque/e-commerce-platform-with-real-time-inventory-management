@@ -33,16 +33,14 @@ public class SecurityConfiguration {
   @Bean
   public UserDetailsService userDetailsService() {
     UserDetails user =
-        User.withDefaultPasswordEncoder()
-            .username("user")
-            .password("password")
+        User.withUsername("user")
+            .password("$2a$10$rsyQEqNfWGjHkdRX7viSA.4jU/k7Qw6eY3dY0H2pn.PPqiOJWH7SS")
             .roles("USER")
             .build();
 
     UserDetails admin =
-        User.withDefaultPasswordEncoder()
-            .username("admin")
-            .password("admin")
+        User.withUsername("admin")
+            .password("$2a$10$rsyQEqNfWGjHkdRX7viSA.4jU/k7Qw6eY3dY0H2pn.PPqiOJWH7SS")
             .roles("USER", "ADMIN")
             .build();
 
