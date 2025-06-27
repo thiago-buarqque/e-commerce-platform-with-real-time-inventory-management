@@ -24,9 +24,14 @@ services:
       - nozama-network
     ports:
       - "8080:8080"
-    command: mvn spring-boot:run
+      - "8000:8000"
+    command: >
+      sh -c "mvn spring-boot:run 
+      -Dspring-boot.run.jvmArguments='-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000'"
+
 networks:
-  nozama-network :
+  nozama-network:
     driver: bridge
+
 volumes:
   postgres_data:
