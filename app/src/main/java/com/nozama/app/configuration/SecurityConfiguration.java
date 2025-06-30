@@ -42,13 +42,13 @@ public class SecurityConfiguration {
 
     UserDetails user = User.builder()
             .username("user")
-            .password(encoder.encode("user"))  // use um encoder real
+            .password(encoder.encode("user"))
             .roles("USER")
             .build();
 
     UserDetails admin = User.builder()
             .username("admin")
-            .password(encoder.encode("admin"))  // use um encoder real
+            .password(encoder.encode("admin"))
             .roles("USER", "ADMIN")
             .build();
 
