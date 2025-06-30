@@ -3,6 +3,7 @@ package com.nozama.app.controller;
 import com.nozama.app.dto.ProductRequest;
 import com.nozama.app.dto.ProductResponse;
 import com.nozama.app.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,13 +20,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
-public class ProductController {
 
+public class ProductController {
   private final ProductService productService;
 
   @PreAuthorize("hasRole('ADMIN')")
   @PostMapping
-  public ProductResponse createProduct(@RequestBody ProductRequest request){
+  public ProductResponse createProduct(@Valid @RequestBody ProductRequest request){
     return productService.createProduct(request);
   }
 
