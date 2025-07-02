@@ -6,6 +6,8 @@ import com.nozama.app.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.awt.print.Pageable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -31,12 +34,13 @@ public class ProductController {
   }
 
   @GetMapping
-  public List<ProductResponse> searchProducts(
+  public Page<ProductResponse> searchProducts(
           @RequestParam(required = false) String search,
           @RequestParam(required = false) String category,
           @RequestParam(required = false) BigDecimal minPrice,
-          @RequestParam(required = false) BigDecimal maxPrice
+          @RequestParam(required = false) BigDecimal maxPrice,
+          @PageableDefault(page = 0, size = 10, sort = "name") Pageable pageable
   ) {
-    return productService.searchProducts(search, category, minPrice, maxPrice);
+    return productService.searchProducts(search, category, minPrice, maxPrice, pageable);
   }
 }

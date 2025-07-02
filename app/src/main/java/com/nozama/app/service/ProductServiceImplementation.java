@@ -5,8 +5,10 @@ import com.nozama.app.dto.ProductResponse;
 import com.nozama.app.model.Product;
 import com.nozama.app.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,17 +34,11 @@ public class ProductServiceImplementation implements ProductService {
         return toResponse(saved);
     }
     @Override
-    public List<ProductResponse> searchProducts(String search, String category, BigDecimal minPrice, BigDecimal maxPrice){
-        List<Product> all = productRepository.findAll();
-
-        return all.stream()
-                .filter(p -> (search == null || p.getName().contains(search) || p.getDescription().contains(search)))
-                .filter(p -> (category == null || p.getCategory().equalsIgnoreCase(category)))
-                .filter(p -> (minPrice == null || p.getPrice().compareTo(minPrice) >= 0))
-                .filter(p -> (maxPrice == null || p.getPrice().compareTo(maxPrice) <= 0))
-                .map(this::toResponse)
-                .collect(Collectors.toList());
+    public Page<ProductResponse> searchProducts(String search, String category, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
+        Page<Product> productsPage = productRepository.findByFilters(search, category, minPrice, maxPrice, pageable);
+        return productsPage.map(this::toResponse);
     }
+
     private ProductResponse toResponse(Product product) {
         ProductResponse response = new ProductResponse();
         response.setId(product.getId());
