@@ -8,14 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
+
+import org.springframework.data.domain.Pageable;
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-
 public class ProductServiceImplementation implements ProductService {
 
     private final ProductRepository productRepository;
