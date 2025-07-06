@@ -33,7 +33,8 @@ public class ProductServiceImplementation implements ProductService {
     }
     @Override
     public Page<ProductResponse> searchProducts(String search, String category, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
-        Page<Product> productsPage = productRepository.findByFilters(search, category, minPrice, maxPrice, pageable);
+        String searchLike = (search == null || search.isBlank()) ? null : "%" + search.toLowerCase() + "%";
+        Page<Product> productsPage = productRepository.findByFilters(searchLike, category, minPrice, maxPrice, pageable);
         return productsPage.map(this::toResponse);
     }
 

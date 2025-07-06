@@ -13,13 +13,21 @@ import java.math.BigDecimal;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>{
-    @Query(value ="""
-       SELECT p FROM Product p
-           WHERE (:search IS NULL OR p.name LIKE :search OR p.description LIKE :search)
-                 AND (:category IS NULL OR (p.category) = (:category))
-                 AND (:minPrice IS NULL OR p.price >= :minPrice)
-                 AND (:maxPrice IS NULL OR p.price <= :maxPrice)
-    """, nativeQuery = false)
+    @Query(value = """
+        SELECT * FROM products p
+        WHERE (:search IS NULL OR LOWER(p.name) LIKE LOWER(:search) OR LOWER(p.description) LIKE LOWER(:search))
+          AND (:category IS NULL OR LOWER(p.category) = LOWER(:category))
+          AND (:minPrice IS NULL OR p.price >= :minPrice)
+          AND (:maxPrice IS NULL OR p.price <= :maxPrice)
+        """,
+            countQuery = """
+        SELECT COUNT(*) FROM products p
+        WHERE (:search IS NULL OR LOWER(p.name) LIKE LOWER(:search) OR LOWER(p.description) LIKE LOWER(:search))
+          AND (:category IS NULL OR LOWER(p.category) = LOWER(:category))
+          AND (:minPrice IS NULL OR p.price >= :minPrice)
+          AND (:maxPrice IS NULL OR p.price <= :maxPrice)
+        """,
+            nativeQuery = true)
     Page<Product> findByFilters(
             @Param("search") String search,
             @Param("category") String category,
