@@ -20,6 +20,8 @@ services:
     volumes:
       - .:/app
       - ~/.m2:/root/.m2   # Cache do Maven para acelerar os builds
+    depends_on:
+      - postgres
     networks:
       - nozama-network
     ports:
