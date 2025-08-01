@@ -17,14 +17,14 @@ public class ProductRequest {
     @Size(max = 500, message = "The description cannot exceed 500 characters" )
     private String description;
 
-    @NotBlank (message = "the category is required")
+    @NotBlank (message = "The category is required")
     private String category;
 
-    @NotNull(message = "the price is required")
-    @Positive(message = "the price must be a positive value")
+    @NotNull(message = "The price is required")
+    @Positive(message = "The price must be a positive value")
     private BigDecimal price;
 
-    @NotNull(message = "the stock quantity is required")
-    @PositiveOrZero(message = "the stock quantity must be zero or a positive value")
+    @NotNull(message = "The stock quantity is required")
+    @PositiveOrZero(message = "The stock quantity must be zero or a positive value")
     private Integer stockQuantity;
 }
