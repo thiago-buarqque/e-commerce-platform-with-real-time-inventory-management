@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@Table (name = "Order")
+@Table (name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -33,6 +34,7 @@ public class Order {
     private LocalDateTime CreatedAt;
     private OrderStatus status;
     private String paymentMethod;
+    @OneToMany
     private List<OrderItem> items;
 
 }

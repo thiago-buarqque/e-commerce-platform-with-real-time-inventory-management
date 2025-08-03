@@ -26,10 +26,10 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Order order;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Product product;
 
     @Column(nullable = false)
