@@ -17,6 +17,10 @@ public class OrderRequest {
     private List<OrderItemRequest> items;
     @NotNull(message = "The paymentMethod is required")
     private String paymentMethod;
+
+    @NotNull
+    @Positive
     private BigDecimal totalAmount;
-    private LocalDateTime CreatedAt;
+    @PastOrPresent
+    private LocalDateTime createdAt;
 }
