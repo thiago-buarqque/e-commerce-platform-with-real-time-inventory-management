@@ -30,6 +30,7 @@ public class User {
   private String password;
   private String cpf;
   private String phone;
+  private String role; // e.g., ROLE_USER, ROLE_ADMIN
   @OneToMany private List<Address> addresses;
 
 }

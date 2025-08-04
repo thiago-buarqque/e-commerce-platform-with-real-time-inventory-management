@@ -13,14 +13,9 @@ import java.util.List;
 public class OrderRequest {
     @NotNull
     private Long userId;
-
+    @NotNull
     private List<OrderItemRequest> items;
     @NotNull
     private String paymentMethod;
 
-    @NotNull
-    @Positive
-    private BigDecimal totalAmount;
-    @PastOrPresent
-    private LocalDateTime CreatedAt;
 }
