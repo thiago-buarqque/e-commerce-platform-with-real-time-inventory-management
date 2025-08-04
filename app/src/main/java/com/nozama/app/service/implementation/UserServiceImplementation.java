@@ -34,4 +34,55 @@ public class UserServiceImplementation implements UserService {
 
         return response;
     }
+
+    @Override
+    public UserResponse updateUser(UserRequest request) {
+     User user = userRepository.findById(request.getId())
+             .orElseThrow(() -> new RuntimeException("User with id " + request.getId() + " not found"));
+
+     user.setName(request.getName());
+     user.setEmail(request.getEmail());
+     if (request.getPassword() != null && !request.getPassword().isBlank()) {
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+     }
+
+     User updatedUser = userRepository.save(user);
+
+     UserResponse response = new UserResponse();
+     response.setId(updatedUser.getId());
+     response.setName(updatedUser.getName());
+     response.setEmail(updatedUser.getEmail());
+
+     return response;
+    }
+
+    @Override
+    public UserResponse deleteUser(UserRequest request) {
+        Long userId = request.getId();
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User with id: " + userId + " not found"));
+
+        userRepository.delete(user);
+
+        UserResponse response = new UserResponse();
+        response.setId(user.getId());
+        response.setName(user.getName());
+        response.setEmail(user.getEmail());
+
+        return response;
+    }
+
+    @Override
+    public UserResponse getUserById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+
+        UserResponse response = new UserResponse();
+        response.setId(user.getId());
+        response.setName(user.getName());
+        response.setEmail(user.getEmail());
+
+        return response;
+    }
 }
