@@ -5,13 +5,6 @@ import com.nozama.app.dto.UserResponse;
 import com.nozama.app.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,7 +43,7 @@ public class UserController {
     public UserResponse updateUser(@Valid @RequestBody UserRequest request) {
         return userService.updateUser(request);
     }
-    @DeleteMapping("/deleteUser")
+    @DeleteMapping
     public UserResponse deleteUser(@Valid @RequestBody UserRequest request) {
         return userService.deleteUser(request);
     }
