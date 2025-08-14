@@ -1,8 +1,8 @@
 package com.nozama.app.configuration;
 
+import com.nozama.app.model.UserRole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -43,13 +43,13 @@ public class SecurityConfiguration {
     UserDetails user = User.builder()
             .username("user")
             .password(encoder.encode("user"))
-            .roles("USER")
+            .roles(UserRole.USER.name())
             .build();
 
     UserDetails admin = User.builder()
             .username("admin")
             .password(encoder.encode("admin"))
-            .roles("USER", "ADMIN")
+            .roles(UserRole.ADMIN.name(), UserRole.USER.name())
             .build();
 
     return new InMemoryUserDetailsManager(user, admin);

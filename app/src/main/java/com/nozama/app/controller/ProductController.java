@@ -27,7 +27,7 @@ import java.math.BigDecimal;
 public class ProductController {
   private final ProductService productService;
 
-  @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("hasRole(UserRole.ROLE_ADMIN.name())")
   @PostMapping
   public ProductResponse createProduct(@Valid @RequestBody ProductRequest request){
     return productService.createProduct(request);

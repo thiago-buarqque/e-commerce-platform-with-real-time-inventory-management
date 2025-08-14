@@ -7,9 +7,14 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserRequest {
+    @NotNull(message = "The id is required")
     private long id;
     private String name;
+
+    @NotNull(message = "The email is required")
     private String email;
+
+    @NotNull(message = "The password is required")
     private String password;
     private String phone;
 }

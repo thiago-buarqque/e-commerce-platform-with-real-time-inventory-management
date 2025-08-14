@@ -11,11 +11,11 @@ import java.util.List;
 
 @Data
 public class OrderRequest {
-    @NotNull
+    @NotNull(message = "The userId is required")
     private Long userId;
-    @NotNull
+    @NotNull(message = "The items of the Order are required")
     private List<OrderItemRequest> items;
-    @NotNull
+    @NotNull(message = "The paymentMethod is required")
     private String paymentMethod;
 
 }
