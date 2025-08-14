@@ -7,8 +7,12 @@ import com.nozama.app.model.UserRole;
 import com.nozama.app.repository.UserRepository;
 import com.nozama.app.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -85,5 +89,16 @@ public class UserServiceImplementation implements UserService {
         response.setEmail(user.getEmail());
 
         return response;
+    }
+    @Override
+    public Page<UserResponse> searchUsers(String search, String role, Pageable pageable) {
+        Page<User> users = userRepository.findByFilters(search, role, pageable);
+        return users.map(user -> {
+            UserResponse response = new UserResponse();
+            response.setId(user.getId());
+            response.setName(user.getName());
+            response.setEmail(user.getEmail());
+            return response;
+        });
     }
 }
