@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
     private final OrderService orderService;
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole(RoleUser.ROLE_USER.name())")
     @PostMapping
     public OrderResponse placeOrder (@Valid @RequestBody OrderRequest request) {
         return orderService.placeOrder(request);
