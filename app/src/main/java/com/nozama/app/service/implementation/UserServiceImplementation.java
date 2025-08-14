@@ -3,6 +3,7 @@ package com.nozama.app.service.implementation;
 import com.nozama.app.dto.UserRequest;
 import com.nozama.app.dto.UserResponse;
 import com.nozama.app.model.User;
+import com.nozama.app.model.UserRole;
 import com.nozama.app.repository.UserRepository;
 import com.nozama.app.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class UserServiceImplementation implements UserService {
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role("ROLE_USER")
+                .role(UserRole.USER)
                 .build();
 
         User saved = userRepository.save(user);

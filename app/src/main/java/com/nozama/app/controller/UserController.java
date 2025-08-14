@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @PutMapping("/me")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole(RoleUser.ROLE_USER.name())")
     public UserResponse updateUser(@Valid @RequestBody UserRequest request) {
         return userService.updateUser(request);
     }
