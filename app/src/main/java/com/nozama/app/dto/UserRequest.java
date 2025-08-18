@@ -9,6 +9,8 @@ import lombok.Data;
 public class UserRequest {
     @NotNull(message = "The id is required")
     private long id;
+
+    @NotNull(message = "The name is required")
     private String name;
 
     @NotNull(message = "The email is required")
