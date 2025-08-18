@@ -32,7 +32,7 @@ public class Order {
     private User user;
 
     private BigDecimal totalAmount;
-    private LocalDateTime CreatedAt;
+    private LocalDateTime createdAt;
     private OrderStatus status;
     private String paymentMethod;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
