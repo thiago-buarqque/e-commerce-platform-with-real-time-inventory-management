@@ -27,7 +27,6 @@ public class SecurityConfiguration {
                     .anyRequest().authenticated()
             )
             .httpBasic(Customizer.withDefaults())
-            .sessionManagement(session ->session.sessionCreationPolicy())
             .build();
   }
 
