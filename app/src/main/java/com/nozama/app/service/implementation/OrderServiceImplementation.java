@@ -15,6 +15,7 @@ import com.nozama.app.repository.UserRepository;
 import com.nozama.app.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -30,39 +31,57 @@ public class OrderServiceImplementation implements OrderService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public OrderResponse placeOrder(OrderRequest request) {
-        User user = userRepository.findById((request.getUserId()))
+        User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         List<OrderItem> orderItems = new ArrayList<>();
         BigDecimal total = BigDecimal.ZERO;
 
+        // 1. Primeiro valida todos os produtos e estoques
+        List<Product> productsToUpdate = new ArrayList<>();
         for (OrderItemRequest itemRequest : request.getItems()) {
             Product product = productRepository.findById(itemRequest.getProductId())
                     .orElseThrow(() -> new RuntimeException("Product not found"));
 
-            if(product.getStockQuantity()< itemRequest.getQuantity()){
+            if (product.getStockQuantity() < itemRequest.getQuantity()) {
                 throw new RuntimeException("Insufficient stock for product: " + product.getName());
             }
+
+            productsToUpdate.add(product);
+        }
+
+        // 2. Atualiza os estoques e monta os itens do pedido
+        for (int i = 0; i < request.getItems().size(); i++) {
+            OrderItemRequest itemRequest = request.getItems().get(i);
+            Product product = productsToUpdate.get(i);
+
+            // Atualiza o estoque
             product.setStockQuantity(product.getStockQuantity() - itemRequest.getQuantity());
             productRepository.save(product);
 
-            BigDecimal itemTotal = product.getPrice().multiply(BigDecimal.valueOf(itemRequest.getQuantity()));
+            // Calcula o subtotal do item
+            BigDecimal itemTotal = product.getPrice()
+                    .multiply(BigDecimal.valueOf(itemRequest.getQuantity()));
 
+            // Cria o OrderItem
             OrderItem orderItem = OrderItem.builder()
                     .product(product)
-                    .quantity(product.getStockQuantity())
+                    .quantity(itemRequest.getQuantity()) // ✅ corrigido, antes estava setando o estoque!
                     .price(product.getPrice())
                     .build();
 
             orderItems.add(orderItem);
             total = total.add(itemTotal);
         }
+
+        // 3. Cria e salva o pedido
         Order order = Order.builder()
                 .user(user)
                 .paymentMethod(request.getPaymentMethod())
                 .status(OrderStatus.PENDING)
-                .CreatedAt(LocalDateTime.now())
+                .createdAt(LocalDateTime.now())
                 .totalAmount(total)
                 .items(new ArrayList<>())
                 .build();
@@ -71,10 +90,12 @@ public class OrderServiceImplementation implements OrderService {
             item.setOrder(order);
         }
         order.setItems(orderItems);
-        Order saveOrder = orderRepository.save(order);
 
-        return toResponse(saveOrder);
+        Order savedOrder = orderRepository.save(order);
+
+        return toResponse(savedOrder);
     }
+
     private OrderResponse toResponse(Order order) {
         List<OrderItemResponse> itemResponses = order.getItems().stream().map(item -> {
             OrderItemResponse response = new OrderItemResponse();
