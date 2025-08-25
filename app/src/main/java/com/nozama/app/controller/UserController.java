@@ -43,7 +43,7 @@ public class UserController {
     public UserResponse updateUser(@Valid @RequestBody UserRequest request) {
         return userService.updateUser(request);
     }
-    @DeleteMapping
+    @DeleteMapping()
     public UserResponse deleteUser(@Valid @RequestBody UserRequest request) {
         return userService.deleteUser(request);
     }
