@@ -1,9 +1,10 @@
-package com.nozama.app.service;
+package com.nozama.app.service.implementation;
 
 import com.nozama.app.dto.ProductRequest;
 import com.nozama.app.dto.ProductResponse;
 import com.nozama.app.model.Product;
 import com.nozama.app.repository.ProductRepository;
+import com.nozama.app.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
