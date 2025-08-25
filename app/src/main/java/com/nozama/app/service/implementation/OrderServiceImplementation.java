@@ -38,7 +38,7 @@ public class OrderServiceImplementation implements OrderService {
         List<OrderItem> orderItems = new ArrayList<>();
         BigDecimal total = BigDecimal.ZERO;
 
-        // 1. Primeiro valida todos os produtos e estoques
+        // Primeiro valida todos os produtos e estoques
         List<Product> productsToUpdate = new ArrayList<>();
         for (OrderItemRequest itemRequest : request.getItems()) {
             Product product = productRepository.findById(itemRequest.getProductId())
@@ -51,7 +51,7 @@ public class OrderServiceImplementation implements OrderService {
             productsToUpdate.add(product);
         }
 
-        // 2. Atualiza os estoques e monta os itens do pedido
+        //Atualiza os estoques e monta os itens do pedido
         for (int i = 0; i < request.getItems().size(); i++) {
             OrderItemRequest itemRequest = request.getItems().get(i);
             Product product = productsToUpdate.get(i);
@@ -67,7 +67,7 @@ public class OrderServiceImplementation implements OrderService {
             // Cria o OrderItem
             OrderItem orderItem = OrderItem.builder()
                     .product(product)
-                    .quantity(itemRequest.getQuantity()) // ✅ corrigido, antes estava setando o estoque!
+                    .quantity(itemRequest.getQuantity())
                     .price(product.getPrice())
                     .build();
 
@@ -75,7 +75,7 @@ public class OrderServiceImplementation implements OrderService {
             total = total.add(itemTotal);
         }
 
-        // 3. Cria e salva o pedido
+        // Cria e salva o pedido
         Order order = Order.builder()
                 .user(user)
                 .paymentMethod(request.getPaymentMethod())
